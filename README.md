@@ -1,6 +1,6 @@
-# CampusDash 校园跑腿平台
+# CampusRelay 校园跑腿平台
 
-CampusDash 是一个面向校园跑腿场景的全栈项目，覆盖任务发布、并发抢单、超时流转、资金托管、结算退款、信用分、通知和实时状态更新。
+CampusRelay 是一个面向校园跑腿场景的全栈项目，覆盖任务发布、并发抢单、超时流转、资金托管、结算退款、信用分、通知和实时状态更新。
 
 ## 功能概览
 
@@ -23,19 +23,19 @@ CampusDash 是一个面向校园跑腿场景的全栈项目，覆盖任务发布
 ## 目录结构
 
 ```text
-campus-dash-backend/
-  dash-domain/          领域模型与端口
-  dash-application/     应用用例
-  dash-infrastructure/  数据库、缓存和消息适配器
-  dash-presentation/    REST API 与 WebSocket
-  dash-bootstrap/       主应用与集成测试
-  dash-worker/          后台任务与消息消费者
-  dash-bench/           压测客户端
+campus-relay-backend/
+  relay-domain/          领域模型与端口
+  relay-application/     应用用例
+  relay-infrastructure/  数据库、缓存和消息适配器
+  relay-presentation/    REST API 与 WebSocket
+  relay-bootstrap/       主应用与集成测试
+  relay-worker/          后台任务与消息消费者
+  relay-bench/           压测客户端
   docker/               本地中间件编排
-campus-dash-frontend/   React 前端
+campus-relay-frontend/   React 前端
 ```
 
-更详细的设计说明见 [ARCHITECTURE.md](campus-dash-backend/docs/ARCHITECTURE.md)。
+更详细的设计说明见 [ARCHITECTURE.md](campus-relay-backend/docs/ARCHITECTURE.md)。
 
 ## 本地运行
 
@@ -56,7 +56,7 @@ set +a
 ### 2. 启动中间件
 
 ```bash
-cd campus-dash-backend/docker
+cd campus-relay-backend/docker
 docker compose --env-file ../../.env up -d
 ./init-mq.sh
 cd ../..
@@ -65,23 +65,23 @@ cd ../..
 ### 3. 启动后端
 
 ```bash
-cd campus-dash-backend
+cd campus-relay-backend
 mvn clean test
-mvn -pl dash-bootstrap spring-boot:run
+mvn -pl relay-bootstrap spring-boot:run
 ```
 
 如需后台任务，在另一个终端启动：
 
 ```bash
-cd campus-dash-backend
+cd campus-relay-backend
 mvn install -DskipTests
-java -jar dash-worker/target/dash-worker-1.0.0-SNAPSHOT.jar
+java -jar relay-worker/target/relay-worker-1.0.0-SNAPSHOT.jar
 ```
 
 ### 4. 启动前端
 
 ```bash
-cd campus-dash-frontend
+cd campus-relay-frontend
 npm install
 npm run dev
 ```
@@ -94,7 +94,7 @@ npm run dev
 |---|---|
 | `MYSQL_ROOT_PASSWORD` | Docker 中的 MySQL root 密码 |
 | `DB_PASSWORD` | 应用连接 MySQL 的密码 |
-| `DASH_AUTH_JWT_SECRET` | JWT 签名密钥，至少 32 字节 |
+| `RELAY_AUTH_JWT_SECRET` | JWT 签名密钥，至少 32 字节 |
 | `DB_URL` | 可选，自定义 JDBC 地址 |
 | `DB_USERNAME` | 可选，默认 `root` |
 
